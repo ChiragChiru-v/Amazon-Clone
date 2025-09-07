@@ -3,20 +3,20 @@ import { products } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
 
 const selectedProducts=document.querySelector('.order-summary');
+countCheckoutItems();
 
-cart.forEach((cartItem,index)=>{
+cart.forEach((cartItem)=>{
     const {productId}=cartItem;
 
     let matchingProduct;
     products.forEach((product)=>{
-        if (product.id===productId)
+        if (product.id===productId){
             matchingProduct= product;
+        }
     })
 
 
     // const matchingProduct=products.find((product)=> product.id===productId)
-    console.log(matchingProduct);
-
 
 
     selectedProducts.innerHTML+=`
@@ -104,5 +104,14 @@ document.querySelectorAll('.js-delete-link').forEach((link)=>{
         removeFromCart(productId);
         const container=document.querySelector(`.js-cart-item-container-${productId}`);
         container.remove();
+        countCheckoutItems();
     })
 })
+
+function countCheckoutItems(){
+    let qtyCount=0;
+    cart.forEach(cartItem=>qtyCount+=cartItem.quantity);
+    const checkoutItems= document.querySelector('.js-cartQty');
+    // qtyCount>0 ? checkoutItems.innerHTML=`${qtyCount} Items`: checkoutItems.innerHTML=``;
+    checkoutItems.innerHTML=`${qtyCount} Items`;
+}
