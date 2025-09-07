@@ -1,4 +1,4 @@
-import {cart} from '../data/cart.js';
+import {cart,addToCart} from '../data/cart.js';
 import { products } from '../data/products.js';
 let productHTML=``
 products.forEach((product)=>{
@@ -52,34 +52,26 @@ products.forEach((product)=>{
         </div>`
 })
 
+function updateCartQuantity(productId){
+    let cartQuantity=0;
+    cart.forEach(item=>cartQuantity+=item.quantity)
+    document.querySelector('.cart-quantity').innerHTML=cartQuantity;
+    const message=document.querySelector(`.js-added-to-cart-${productId}`);
+    message.classList.add('added-msg');
+    transid= setTimeout(()=>{
+      message.classList.remove('added-msg');
+      isMessage=true;
+    },2000)
+    console.log(cart)
+}
+
 document.querySelector('.js-product-grid').innerHTML=productHTML;
 document.querySelectorAll('.js-add-to-cart-btn').forEach((button)=>{
     button.addEventListener('click',()=>{
-       const {productId}= button.dataset;
-       const quantity=Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
-       let matchingItem;
-       cart.forEach((item)=>{
-        if(productId===item.productId){
-            matchingItem=item;
-        }
-       })
-       if(matchingItem){
-            matchingItem.quantity+=quantity;
-       }else{
-            cart.push({
-                productId,
-                quantity
-            })
-        }
-        let cartQuantity=0;
-        cart.forEach(item=>cartQuantity+=item.quantity)
-        document.querySelector('.cart-quantity').innerHTML=cartQuantity;
-        const message=document.querySelector(`.js-added-to-cart-${productId}`);
-        message.classList.add('added-msg');
-        transid= setTimeout(()=>{
-                message.classList.remove('added-msg');
-                isMessage=true;
-        },2000)
-        console.log(cart)
+      const {productId}= button.dataset;
+      const quantity=Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
+      addToCart(productId,quantity);
+      updateCartQuantity(productId);
+      
     })
 })
