@@ -51,7 +51,8 @@ products.forEach((product)=>{
           </button>
         </div>`
 })
-
+let transid;
+let isMessage=false;
 function updateCartQuantity(productId){
     let cartQuantity=0;
     cart.forEach(item=>cartQuantity+=item.quantity)
