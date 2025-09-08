@@ -11,10 +11,10 @@ if(!cart){
 }
 
 
-
 function saveToStorage(){
     localStorage.setItem('cart',JSON.stringify(cart));
 }
+
 
 export function addToCart(productId,quantity){
     let matchingItem;
@@ -43,4 +43,19 @@ export function removeFromCart(productId){
     })
     cart=newCart;
     saveToStorage();
+}
+
+export function calculateCartQuantity(){
+    let qty=0
+    cart.forEach(item=>qty+=item.quantity);
+    return qty;
+}
+
+export function updateCartQuantity(productId,newQuantity){
+    cart.forEach((cartItem)=>{
+        if(cartItem.productId===productId)
+            cartItem.quantity=newQuantity;
+    })
+    saveToStorage();
+    
 }
