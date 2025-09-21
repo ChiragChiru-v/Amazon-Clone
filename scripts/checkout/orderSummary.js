@@ -8,7 +8,7 @@ import { renderCheckoutHeader } from "./checkoutHeader.js";
 
 
 export function renderOrderSummary(){
-    const selectedProducts=document.querySelector('.order-summary');
+    const selectedProducts=document.querySelector('.js-order-summary');
     selectedProducts.innerHTML='';
     renderCheckoutHeader();
     let checkoutHtml='';
@@ -52,7 +52,7 @@ export function renderOrderSummary(){
                       </span>
                       <input class='quantity-input js-quantity-input-${matchingProduct.id}'> 
                       <span class=' link-primary save-quantity-link'  data-product-id='${matchingProduct.id}'>Save</span>
-                      <span class="delete-quantity-link link-primary js-delete-link" data-product-id='${matchingProduct.id}'>
+                      <span class="delete-quantity-link link-primary js-delete-link js-delete-link-${matchingProduct.id}" data-product-id='${matchingProduct.id}'>
                         Delete
                       </span>
                     </div>
@@ -68,9 +68,9 @@ export function renderOrderSummary(){
                   </div>
                 </div>
               </div>`
-        selectedProducts.innerHTML=checkoutHtml;
+        
     })
-
+    selectedProducts.innerHTML=checkoutHtml;
     function deliverOptionsHTML(matchingProduct,cartItem){
       let html=''
       deliveryOptions.forEach((option)=>{  
