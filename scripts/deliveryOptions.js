@@ -26,7 +26,7 @@ export function getDeliveryOption(deliveryOptionId){
 
 export function calculateDeliveryDate(deliveryOption){
     const deliveryExpected=dayjs().add(deliveryOption.deliveryDays,'days');
-    console.log(deliveryExpected);
+    // console.log(deliveryExpected);
     let deliveryDay=deliveryExpected;
     if(isWeekend(deliveryExpected)==='Saturday'){
         deliveryDay=deliveryExpected.subtract(1,'days')
