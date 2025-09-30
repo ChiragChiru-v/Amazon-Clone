@@ -4,13 +4,13 @@ import  formatCurrency  from "../utils/money.js";
 import dayjs from ' https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 import { calculateDeliveryDate, deliveryOptions, getDeliveryOption } from "../deliveryOptions.js";
 import { renderPaymentSummary } from "./paymentSummary.js";
-import { renderCheckoutHeader } from "./checkoutHeader.js";
+// import { renderCheckoutHeader } from "./checkoutHeader.js";
 
 
 export function renderOrderSummary(){
     const selectedProducts=document.querySelector('.js-order-summary');
     selectedProducts.innerHTML='';
-   renderCheckoutHeader();
+  //  renderCheckoutHeader();
     let checkoutHtml='';
 
     cart.forEach((cartItem)=>{
@@ -100,7 +100,7 @@ export function renderOrderSummary(){
         link.addEventListener('click',()=>{
             const productId=link.dataset.productId;
             removeFromCart(productId);
-            renderCheckoutHeader();
+           // renderCheckoutHeader();
             renderPaymentSummary();
             renderOrderSummary();
         })
@@ -134,11 +134,11 @@ export function renderOrderSummary(){
       console.log(qty);
       if (qty>0 && qty<100){
               updateCartQuantity(productId,qty);
-              renderCheckoutHeader();
+              // renderCheckoutHeader();
               document.querySelector(`.js-quantity-label-${productId}`).innerHTML=qty;
       }
       document.querySelector(`.js-cart-item-container-${productId}`).classList.remove('is-editing-quantity');
-      renderCheckoutHeader();
+      // renderCheckoutHeader();
       renderOrderSummary();
       renderPaymentSummary();
     }
