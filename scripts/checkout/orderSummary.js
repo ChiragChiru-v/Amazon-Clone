@@ -10,7 +10,7 @@ import { renderCheckoutHeader } from "./checkoutHeader.js";
 export function renderOrderSummary(){
     const selectedProducts=document.querySelector('.js-order-summary');
     selectedProducts.innerHTML='';
-    renderCheckoutHeader();
+   renderCheckoutHeader();
     let checkoutHtml='';
 
     cart.forEach((cartItem)=>{
@@ -41,7 +41,7 @@ export function renderOrderSummary(){
                       ${matchingProduct.name}
                     </div>
                     <div class="product-price">
-                      $${formatCurrency(matchingProduct.priceCents)}
+                      ${matchingProduct.getPrice()}
                     </div>
                     <div class="product-quantity">
                       <span>
