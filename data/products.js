@@ -718,3 +718,17 @@ export const products = [
   
   return new product(productDetails)
 });
+
+// const day=new Date();
+// console.log(day.toLocaleTimeString());
+// const obj={
+//   mathod(){
+//     console.log(this);
+    
+//   },
+//   a:[1,2,3].forEach(()=>{
+//       console.log(this);
+//     })
+// }
+
+// obj.a;
