@@ -1,4 +1,4 @@
-import { loadCart } from "../data/cart.js";
+import { loadCart, loadCartFetch } from "../data/cart.js";
 import { loadProductsFetch } from "../data/products.js";
 import { renderOrderSummary } from "./checkout/orderSummary.js";
 import { renderPaymentSummary } from "./checkout/paymentSummary.js";
@@ -13,14 +13,8 @@ import { renderPaymentSummary } from "./checkout/paymentSummary.js";
 
 async function loadPage() {
   console.log("load Page");
-
   try {
-    await loadProductsFetch();
-    await new Promise((resolve) => {
-      loadCart(() => {
-        resolve();
-      });
-    });
+    await Promise.all([loadProductsFetch(), loadCartFetch()]);
   } catch (error) {
     console.log("unexpected error", error);
   }
