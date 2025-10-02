@@ -11,6 +11,24 @@ import { renderPaymentSummary } from "./checkout/paymentSummary.js";
 //     })
 // })
 
+async function loadPage() {
+  console.log("load Page");
+
+  await loadProductsFetch();
+
+  await new Promise((resolve) => {
+    loadCart(() => {
+      resolve();
+    });
+  });
+
+  renderOrderSummary();
+  renderPaymentSummary();
+}
+
+loadPage();
+
+/*
 Promise.all([
   loadProductsFetch(),
   new Promise((resolve) => {
@@ -23,7 +41,7 @@ Promise.all([
   renderOrderSummary();
   renderPaymentSummary();
 });
-
+*/
 /*
 new Promise((resolve) => {
   loadProducts(() => {
