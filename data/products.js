@@ -1,101 +1,113 @@
 import formatCurrency from "../scripts/utils/money.js";
 
-class product{
+class product {
   id;
   image;
   name;
   rating;
   priceCents;
-  constructor(productDetails){
-    this.id=productDetails.id;
-    this.image=productDetails.image;
-    this.name=productDetails.name;
-    this.rating=productDetails.rating;
-    this.priceCents=productDetails.priceCents;
+  constructor(productDetails) {
+    this.id = productDetails.id;
+    this.image = productDetails.image;
+    this.name = productDetails.name;
+    this.rating = productDetails.rating;
+    this.priceCents = productDetails.priceCents;
   }
 
-  getStarsUrl(){
-    return `images/ratings/rating-${this.rating.stars*10}.png`
+  getStarsUrl() {
+    return `images/ratings/rating-${this.rating.stars * 10}.png`;
   }
 
-  getPrice(){
-    return `$${formatCurrency(this.priceCents)}`
+  getPrice() {
+    return `$${formatCurrency(this.priceCents)}`;
   }
 
-  extraInfoHtml(){
-    return '';
+  extraInfoHtml() {
+    return "";
   }
 }
 
-class Clothing extends product{
-
+class Clothing extends product {
   sizeChartLink;
-  constructor(productDetails){
-    super(productDetails)
-    this.sizeChartLink=productDetails.sizeChartLink;
+  constructor(productDetails) {
+    super(productDetails);
+    this.sizeChartLink = productDetails.sizeChartLink;
   }
 
-  extraInfoHtml(){
+  extraInfoHtml() {
     return `
       <a href=${this.sizeChartLink} target='_blank' class="link-primary" style="text-decoration:none">Size chart</a>
-    `
+    `;
   }
 }
 
-class Appliances extends product{
+class Appliances extends product {
   instructionsLink;
   warrantyLink;
-  
-  constructor(productDetails){
+
+  constructor(productDetails) {
     super(productDetails);
-    this.instructionsLink=productDetails.instructionsLink;
-    this.warrantyLink=productDetails.warrantyLink;
+    this.instructionsLink = productDetails.instructionsLink;
+    this.warrantyLink = productDetails.warrantyLink;
   }
 
-  extraInfoHtml(){
+  extraInfoHtml() {
     return `
       <a href=${this.instructionsLink} target='_blank' class="link-primary" style="text-decoration:none">Instructions</a>
       <a href=${this.warrantyLink} target='_blank' class="link-primary" style="text-decoration:none">Warranty</a>
 
-    `
+    `;
   }
-
-
 }
 
+export let products = [];
 
-export let products=[];
-export function loadProducts(fun){
-    const xhr=new XMLHttpRequest();
-    xhr.addEventListener('load',()=>{
-      products=JSON.parse(xhr.response).map((productDetails)=>{
-              if (productDetails.type==='clothing'){
-                return new Clothing(productDetails);
-              }
-              else if(productDetails.type==='appliance'){
-                return new Appliances(productDetails);
-              };
-               return new product(productDetails)
-      });
-      console.log('loaded products');
-      fun();
-       
+export function loadProductsFetch() {
+  const promise = fetch("https://supersimplebackend.dev/products")
+    .then((response) => {
+      return response.json();
     })
-    xhr.open('GET','https://supersimplebackend.dev/products');
-    xhr.send();
-    
+    .then((productData) => {
+      products = productData.map((productDetails) => {
+        if (productDetails.type === "clothing") {
+          return new Clothing(productDetails);
+        } else if (productDetails.type === "appliance") {
+          return new Appliances(productDetails);
+        }
+        return new product(productDetails);
+      });
+      console.log("loaded products");
+    });
+  return promise;
+}
+loadProductsFetch();
+export function loadProducts(fun) {
+  const xhr = new XMLHttpRequest();
+  xhr.addEventListener("load", () => {
+    products = JSON.parse(xhr.response).map((productDetails) => {
+      if (productDetails.type === "clothing") {
+        return new Clothing(productDetails);
+      } else if (productDetails.type === "appliance") {
+        return new Appliances(productDetails);
+      }
+      return new product(productDetails);
+    });
+    console.log("loaded products");
+    fun();
+  });
+  xhr.open("GET", "https://supersimplebackend.dev/products");
+  xhr.send();
 }
 
-export function getProduct(productId){
+export function getProduct(productId) {
   let matchingProduct;
-  products.forEach((product)=>{
-      if (product.id===productId){
-          matchingProduct= product;
-      }
-  })
+  products.forEach((product) => {
+    if (product.id === productId) {
+      matchingProduct = product;
+    }
+  });
   return matchingProduct;
 }
-
 
 /*
 export const products = [
@@ -786,7 +798,7 @@ export const products = [
 // const obj={
 //   mathod(){
 //     console.log(this);
-    
+
 //   },
 //   a:[1,2,3].forEach(()=>{
 //       console.log(this);
