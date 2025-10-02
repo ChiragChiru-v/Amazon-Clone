@@ -2,6 +2,7 @@ import { orders } from "../data/orders.js";
 import dayjs from " https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
 import formatCurrency from "./utils/money.js";
 import { getProduct, loadProductsFetch } from "../data/products.js";
+import { addToCart } from "../data/cart.js";
 
 renderOrderPage();
 async function renderOrderPage() {
@@ -39,14 +40,14 @@ export function renderOrdergrid() {
               </div>
               <div class="product-delivery-date">Arriving on: ${dateString}</div>
               <div class="product-quantity">Quantity: ${quantity}</div>
-              <button class="buy-again-button button-primary">
+              <button class="buy-again-button button-primary" data-product-id=${item.id} data-quantity=${quantity}>
                 <img class="buy-again-icon" src="images/icons/buy-again.png" />
                 <span class="buy-again-message">Buy it again</span>
               </button>
             </div>
 
             <div class="product-actions">
-              <a href="tracking.html?oderId=123&productId=456">
+              <a href="tracking.html?oderId=${element.id}&productId=${item.id}">
                 <button class="track-package-button button-secondary">
                   Track package
                 </button>
@@ -84,4 +85,13 @@ export function renderOrdergrid() {
   });
 
   document.querySelector(".orders-grid").innerHTML = OrderHTML;
+  const buyAgainBtn = document.querySelectorAll(".buy-again-button");
+  console.log(buyAgainBtn[0]);
+  buyAgainBtn.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const { productId, quantity } = btn.dataset;
+      addToCart(productId, Number(quantity));
+      window.location.href = "checkout.html";
+    });
+  });
 }

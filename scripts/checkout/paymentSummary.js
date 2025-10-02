@@ -81,6 +81,7 @@ export function renderPaymentSummary() {
       });
       const order = await response.json();
       addOrder(order);
+      localStorage.removeItem("cart");
       window.location.href = "tracking.html";
     });
 }
