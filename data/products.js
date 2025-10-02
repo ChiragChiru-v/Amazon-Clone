@@ -78,7 +78,6 @@ export function loadProducts(fun){
                return new product(productDetails)
       });
       console.log('loaded products');
-      console.log(products[0]);
       fun();
        
     })
