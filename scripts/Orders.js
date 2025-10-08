@@ -11,13 +11,6 @@ async function renderOrderPage() {
 }
 
 export function renderOrdergrid() {
-  console.log(orders[0]);
-  console.log(dayjs(orders[0].orderTime).format("MMMM DD"));
-  console.log(orders[0].id);
-  console.log(formatCurrency(orders[0].totalCostCents));
-  let a = orders[0].products[0].productId;
-  console.log(getProduct(a));
-
   let OrderHTML = "";
   orders.forEach((element) => {
     const orderDate = dayjs(element.orderTime).format("MMMM DD");
@@ -47,7 +40,7 @@ export function renderOrdergrid() {
             </div>
 
             <div class="product-actions">
-              <a href="tracking.html?oderId=${element.id}&productId=${item.id}">
+              <a href="tracking.html?orderId=${element.id}&productId=${item.id}">
                 <button class="track-package-button button-secondary">
                   Track package
                 </button>
