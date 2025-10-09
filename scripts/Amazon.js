@@ -6,10 +6,25 @@ import { products, loadProducts, loadProductsFetch } from "../data/products.js";
 loadHomePage();
 async function loadHomePage() {
   await loadProductsFetch();
-  renderProductsGrid();
+  renderProductsGrid(products);
+  const homeUrl = new URL(window.location.href);
+  if (window.location.href.includes("query")) {
+    console.log(typeof homeUrl.searchParams.get("query"));
+    handleSearch(homeUrl.searchParams.get("query"));
+  }
+  const searchBar = document.querySelector(".search-bar");
+  searchBar.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      let queryValue = e.target.value;
+      handleSearch(queryValue);
+    }
+  });
+  document.querySelector(".search-button").addEventListener("click", () => {
+    handleSearch(searchBar.value);
+  });
 }
 
-function renderProductsGrid() {
+function renderProductsGrid(products) {
   let productHTML = ``;
   products.forEach((product) => {
     productHTML += `<div class="product-container">
@@ -93,4 +108,15 @@ function renderProductsGrid() {
   });
 
   document.querySelector(".cart-quantity").innerHTML = calculateCartQuantity();
+}
+
+function handleSearch(queryValue) {
+  console.log("called");
+  const query = queryValue;
+  let filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(query)
+  );
+  console.log(filteredProducts);
+  renderProductsGrid(filteredProducts);
+  console.log(query);
 }

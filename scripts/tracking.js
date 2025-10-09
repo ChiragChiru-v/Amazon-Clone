@@ -11,7 +11,11 @@ let deliveryDayString;
 let productName;
 let productQty;
 let productImageUrl;
-
+document.querySelector(".search-bar").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    window.location.href = `index.html?query=${e.target.value}`;
+  }
+});
 getTrackingdetails();
 
 async function getTrackingdetails() {
